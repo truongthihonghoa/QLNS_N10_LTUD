@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GE CAFE HRM{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="main-container">
+        <header class="header">
+            <div class="header-left">
+                <img class="logo" src="{% static 'images/logo.png' %}" alt="Logo GÉ CAFE" />
+                <span class="brand-name">GÉ CAFE</span>
+            </div>
+            <div class="header-right">
+                <span class="welcome-message">Xin chào, {{ user.get_full_name|default:user.username }}</span>
+                <img class="user-avatar" src="{% static 'images/user_avatar.png' %}" alt="User Avatar" />
+            </div>
+        </header>
+
+        <nav class="navigation-bar">
+            <a href="{% url 'dashboard' %}" class="nav-item">Tổng quan</a>
+            <div class="nav-item dropdown">
+                <span>Tài khoản ⌵</span>
+                <div class="dropdown-content">
+                    <a href="#">Admin</a>
+                    <a href="#">Nhân viên</a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <span>Chi nhánh ⌵</span>
+                <div class="dropdown-content">
+                    <a href="#">Admin</a>
+                    <a href="#">Nhân viên</a>
+                </div>
+            </div>
+            <a href="{% url 'employee_list' %}" class="nav-item">Nhân Viên</a>
+            <a href="#" class="nav-item">Hợp Đồng</a>
+            <a href="#" class="nav-item">Lịch Làm Việc</a>
+            <a href="#" class="nav-item">Yêu Cầu</a>
+            <a href="#" class="nav-item">Bảng Lương</a>
+            <a href="#" class="nav-item">Báo Cáo</a>
+        </nav>
+
+        <main class="main-content">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+
+    <script src="{% static 'js/base.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

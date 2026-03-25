@@ -1,0 +1,104 @@
+.employee-management-container {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px; /* Add gap between items */
+}
+
+.search-bar {
+    display: flex;
+    border: 1px solid #dadcdf;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 600px; /* Adjusted width */
+    height: 48px;
+}
+
+.search-bar input {
+    border: none;
+    padding: 0 15px;
+    font-size: 20px;
+    flex-grow: 1;
+    background-color: #fcfaf9;
+}
+
+.search-bar input:focus {
+    outline: none;
+}
+
+.search-action-btn, .add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #174d17de;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    height: 49px;
+    cursor: pointer;
+    font-family: "Montserrat-Bold", Helvetica, sans-serif;
+    font-size: 20px; /* Adjusted font size */
+    padding: 0 25px;
+    text-decoration: none; /* Remove underline from link */
+}
+
+.search-action-btn img, .add-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.spacer {
+    flex-grow: 1; /* Pushes the buttons to the far right */
+}
+
+.employee-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000000de;
+}
+
+.employee-table th, .employee-table td {
+    border: 1px solid #000000de;
+    padding: 15px;
+    text-align: center;
+    font-family: "Montserrat-Regular", Helvetica, sans-serif;
+    font-size: 20px;
+}
+
+.employee-table thead {
+    background-color: #174d17d6;
+    color: white;
+}
+
+.employee-table thead th {
+    font-family: "Montserrat-Bold", Helvetica, sans-serif;
+    font-size: 23px;
+}
+
+.employee-table tbody tr:nth-child(odd) {
+    background-color: #f3f0ee;
+}
+
+.employee-table tbody tr:nth-child(even) {
+    background-color: #ebe7e4;
+}
+
+.action-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.action-icon img {
+    width: 24px;
+    height: 24px;
+}

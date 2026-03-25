@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Quản lý Nhân viên - {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'employees/css/employee_list.css' %}">
+    <link rel="stylesheet" href="{% static 'employees/css/Popup_ConfirmDelete.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="employee-management-container">
+    <div class="toolbar">
+        <div class="search-bar">
+            <input type="text" placeholder="Nhập tên nhân viên">
+        </div>
+        <div class="spacer"></div> <!-- This will push the buttons to the right -->
+        <button class="search-action-btn">
+            <img src="{% static 'employees/img/search_icon.png' %}" alt="Tìm kiếm">
+            <span>Tìm kiếm</span>
+        </button>
+        <a href="{% url 'employee_add' %}" class="add-btn">
+            <img src="{% static 'employees/img/add_icon.png' %}" alt="Thêm">
+            <span>Thêm</span>
+        </a>
+    </div>
+
+    <table class="employee-table">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Mã Nhân Viên</th>
+                <th>Tên Nhân Viên</th>
+                <th>Ngày Sinh</th>
+                <th>Số Điện Thoại</th>
+                <th>Chức Vụ</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in "12345678" %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>NV0000{{ forloop.counter }}</td>
+                <td>Nguyễn Văn An</td>
+                <td>12/02/2000</td>
+                <td>0966983691</td>
+                <td>Pha chế</td>
+                <td class="action-cell">
+                    <a href="#" class="action-icon">
+                        <img src="{% static 'employees/img/edit_icon.png' %}" alt="Sửa">
+                    </a>
+                    <a href="#" class="action-icon delete-btn">
+                        <img src="{% static 'employees/img/delete_icon.png' %}" alt="Xóa">
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include 'employees/partials/Popup_ConfirmDelete.html' %}
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'employees/js/employee_list.js' %}"></script>
+{% endblock %}
