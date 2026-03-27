@@ -17,7 +17,7 @@
                 <span class="brand-name">GÉ CAFE</span>
             </div>
             <div class="header-right">
-                <span class="welcome-message">Xin chào, {{ user.get_full_name|default:user.username }}</span>
+                <span class="welcome-message">Xin chào, GÉ CAFE</span>
                 <img class="user-avatar" src="{% static 'images/user_avatar.png' %}" alt="User Avatar" />
             </div>
         </header>
@@ -27,7 +27,7 @@
             <div class="nav-item dropdown">
                 <span>Tài khoản ⌵</span>
                 <div class="dropdown-content">
-                    <a href="{% url 'account_employee_list' %}">Admin</a>
+                    <a href="{% url 'account_admin_list' %}">Admin</a>
                     <a href="{% url 'account_employee_list' %}">Nhân viên</a>
                 </div>
             </div>

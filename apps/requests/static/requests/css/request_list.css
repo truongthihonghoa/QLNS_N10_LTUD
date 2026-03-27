@@ -9,9 +9,18 @@
 
 .toolbar {
     display: grid;
-    grid-template-columns: minmax(280px, 1fr) 170px 170px;
+    grid-template-columns: minmax(280px, 1fr) 170px;
     gap: 14px;
     align-items: center;
+}
+
+.filter-section {
+    margin-bottom: 26px;
+}
+
+.filter-box {
+    display: flex;
+    justify-content: flex-start;
 }
 
 .search-box {

@@ -1,3 +1,4 @@
+/* ===== BASE STYLES ===== */
 .account-page {
     display: flex;
     flex-direction: column;
@@ -58,12 +59,12 @@
     color: #444444;
 }
 
+/* ===== TABLE STYLES (Giống Hợp Đồng) ===== */
 .account-table-card {
-    background: #fff !important;
-    border-radius: 14px !important;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
-    overflow: hidden !important;
-    border: none !important;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
 }
 
 .account-table {
@@ -71,31 +72,31 @@
     border-collapse: collapse;
 }
 
-.account-table th {
-    background: rgba(23, 77, 23, 0.84) !important;
-    color: #fff !important;
-    font: 700 24px "Montserrat", sans-serif !important;
-    padding: 18px 14px !important;
-    text-align: center !important;
+.account-table thead th {
+    background: rgba(23, 77, 23, 0.84);
+    color: #fff;
+    font: 700 22px "Montserrat", sans-serif;
+    padding: 16px 14px;
+    text-align: center;
 }
 
 .account-table tbody tr:nth-child(odd) {
-    background: #ebe7e4 !important;
+    background: #ebe7e4;
 }
 
 .account-table tbody tr:nth-child(even) {
-    background: rgba(243, 240, 238, 0.93) !important;
+    background: rgba(243, 240, 238, 0.93);
 }
 
 .account-table td {
-    padding: 24px 14px !important;
-    text-align: center !important;
-    font: 600 20px "Montserrat", sans-serif !important;
-    color: #1a1a1a !important;
-    vertical-align: middle !important;
-    border: none !important;
+    padding: 22px 14px;
+    text-align: center;
+    font: 500 20px "Montserrat", sans-serif;
+    color: #1a1a1a;
+    vertical-align: middle;
 }
 
+/* ===== STATUS BADGE ===== */
 .account-status {
     font-weight: 600;
 }
@@ -108,6 +109,7 @@
     color: #d32f2f;
 }
 
+/* ===== ACTION BUTTONS (Giống Hợp Đồng) ===== */
 .account-actions {
     display: flex;
     justify-content: center;
@@ -147,6 +149,7 @@
     border-color: #8d6e63;
 }
 
+/* ===== MODAL STYLES ===== */
 .account-modal-overlay {
     position: fixed;
     inset: 0;
@@ -177,8 +180,6 @@
 }
 
 .account-modal-header h2 {
-    margin: 0;
-    color: #174d17;
     font-size: 24px;
     font-weight: 700;
     text-transform: uppercase;
@@ -239,6 +240,7 @@
     margin-top: 22px;
 }
 
+/* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
     .account-toolbar {
         grid-template-columns: 1fr;

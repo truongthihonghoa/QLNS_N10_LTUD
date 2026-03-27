@@ -5,6 +5,12 @@
     background-color: #ffffff !important;
 }
 
+/* Table header styling - specific to payroll tables */
+.table .header,
+.payroll-table .header {
+    background: rgba(23, 77, 23, 0.84) !important;
+}
+
 /* Main Container */
 .mn-hnh-trang-lng-ch-duyt {
     width: 100%;
