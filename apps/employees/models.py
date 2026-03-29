@@ -1,7 +1,6 @@
 from django.core.validators import RegexValidator
 from django.db import models
 
-
 class NhanVien(models.Model):
     GIOI_TINH_CHOICES = [
         ("Nam", "Nam"),
