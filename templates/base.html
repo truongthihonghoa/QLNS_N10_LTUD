@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}GE CAFE HRM{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/globals.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/components/popup_confirm_cancel.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -25,6 +27,34 @@
                     <img class="user-avatar" src="{% static 'images/user_avatar.png' %}" alt="User Avatar" />
                     <div class="user-dropdown-content">
                         <a href="#" id="logout-link">Đăng xuất</a>
+                    </div>
+                </div>
+
+                <div class="notification-bell" id="notification-bell">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                    <div class="notification-dropdown" id="notification-dropdown">
+                        <div class="notification-header">
+                            <h3>Notifications</h3>
+                            <a href="#" class="mark-as-read">Mark all as read</a>
+                        </div>
+                        <div class="notification-list">
+                            <div class="notification-item">
+                                <p class="title">Nhân viên A vừa check-in</p>
+                                <p class="description">Vị trí: Pha chế</p>
+                                <p class="time">15 minutes ago</p>
+                            </div>
+                            <div class="notification-item">
+                                <p class="title">Đơn hàng mới đã được tạo</p>
+                                <p class="description">Bởi: Quản lý B</p>
+                                <p class="time">1 hour ago</p>
+                            </div>
+                            <div class="notification-item">
+                                <p class="title">Ca làm sắp bắt đầu</p>
+                                <p class="description">Ca tối, 18:00 - 22:00</p>
+                                <p class="time">3 hours ago</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -57,6 +87,7 @@
     {% include 'partials/popup_confirm_logout.html' %}
 
     <script src="{% static 'js/base.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>
