@@ -1,188 +1,252 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // --- MOCK DATA ---
-    // Trong thực tế, bạn sẽ fetch dữ liệu này từ API của Django
+document.addEventListener("DOMContentLoaded", function () {
     const mockScheduleData = {
-        "2026-03-24": { // Thứ 2
-            "morning": { id: "LLV001", status: "Chưa Gửi", created: "23/03/2026", employees: [
-                { id: "NV001", name: "Nguyễn Văn An", role: "Pha chế", status: "Chưa Gửi" },
-                { id: "NV002", name: "Trần Thị Bích", role: "Phục vụ", status: "Chưa Gửi" },
-            ]},
-            "afternoon": { id: "LLV002", status: "Đã Gửi", created: "23/03/2026", employees: [
-                { id: "NV003", name: "Lê Minh Cường", role: "Thu ngân", status: "Đã Gửi" },
-            ]},
-            "evening": { id: "LLV003", status: "Chưa Gửi", created: "23/03/2026", employees: [] },
+        "2026-03-16": {
+            morning: { id: "LLV001", status: "Chưa gửi", created: "15/03/2026", employees: 3, details: [{ id: "NV001", name: "Nguyễn Văn An", role: "Pha chế", status: "Chưa gửi" }] },
+            afternoon: { id: "LLV002", status: "Chưa gửi", created: "15/03/2026", employees: 3, details: [{ id: "NV002", name: "Trần Thị Bích", role: "Phục vụ", status: "Chưa gửi" }] },
+            evening: { id: "LLV003", status: "Chưa gửi", created: "15/03/2026", employees: 0, details: [] },
         },
-        "2026-03-26": { // Thứ 4
-            "morning": { id: "LLV004", status: "Đã Gửi", created: "25/03/2026", employees: [
-                { id: "NV001", name: "Nguyễn Văn An", role: "Pha chế", status: "Đã Gửi" },
-                { id: "NV004", name: "Phạm Thị Dung", role: "Phục vụ", status: "Đã Gửi" },
-                { id: "NV005", name: "Hoàng Văn Em", role: "Giữ xe", status: "Đã Gửi" },
-            ]},
+        "2026-03-17": {
+            morning: { id: "LLV004", status: "Chưa gửi", created: "16/03/2026", employees: 6, details: [{ id: "NV003", name: "Lê Minh Cường", role: "Thu ngân", status: "Chưa gửi" }] },
+            afternoon: { id: "LLV005", status: "Chưa gửi", created: "16/03/2026", employees: 6, details: [{ id: "NV004", name: "Phạm Thị Dung", role: "Phục vụ", status: "Chưa gửi" }] },
+            evening: { id: "LLV006", status: "Chưa gửi", created: "16/03/2026", employees: 0, details: [] },
         },
-        "2026-03-28": { // Thứ 6
-            "evening": { id: "LLV005", status: "Chưa Gửi", created: "27/03/2026", employees: [
-                { id: "NV002", name: "Trần Thị Bích", role: "Phục vụ", status: "Chưa Gửi" },
-            ]},
-        }
+        "2026-03-18": {
+            morning: { id: "LLV007", status: "Đã gửi", created: "17/03/2026", employees: 8, details: [{ id: "NV005", name: "Hoàng Văn Em", role: "Giữ xe", status: "Đã gửi" }] },
+            afternoon: { id: "LLV008", status: "Đã gửi", created: "17/03/2026", employees: 8, details: [{ id: "NV006", name: "Đỗ Thu Hà", role: "Phục vụ", status: "Đã gửi" }] },
+            evening: { id: "LLV009", status: "Chưa gửi", created: "17/03/2026", employees: 3, details: [{ id: "NV007", name: "Ngô Thanh Long", role: "Pha chế", status: "Chưa gửi" }] },
+        },
     };
 
-    const shiftNames = {
-        morning: { name: "Ca Sáng", time: "06:00 - 12:00" },
-        afternoon: { name: "Ca Chiều", time: "12:00 - 17:00" },
-        evening: { name: "Ca Tối", time: "17:00 - 22:00" },
-    };
+    const shifts = [
+        { key: "morning", label: "Ca Sáng", time: "06:00 - 12:00", defaultText: "Ca Sáng", className: "is-morning" },
+        { key: "afternoon", label: "Ca Chiều", time: "12:00 - 17:00", defaultText: "Ca Chiều", className: "is-afternoon" },
+        { key: "evening", label: "Ca Tối", time: "17:00 - 22:00", defaultText: "Ca Tối", className: "is-evening" },
+    ];
 
-    const grid = document.querySelector('.schedule-grid');
-    const modal = document.getElementById('shift-detail-modal');
-    const modalCloseBtn = document.getElementById('modal-close-btn');
-    const modalConfirmBtn = document.getElementById('modal-confirm-btn');
-    const modalSendBtn = document.getElementById('modal-send-notification-btn');
+    const weekdays = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+    const weekdayLabels = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "CN"];
 
-    // --- FUNCTIONS ---
+    const scheduleBoard = document.getElementById("schedule-board");
+    const miniCalendar = document.getElementById("mini-calendar");
+    const calendarTitle = document.getElementById("calendar-title");
+    const currentWeekLabel = document.getElementById("current-week-label");
+    const prevWeekBtn = document.getElementById("prev-week-btn");
+    const nextWeekBtn = document.getElementById("next-week-btn");
+    const modal = document.getElementById("shift-detail-modal");
+    const modalCloseBtn = document.getElementById("modal-close-btn");
+    const modalConfirmBtn = document.getElementById("modal-confirm-btn");
+    const modalSendBtn = document.getElementById("modal-send-notification-btn");
+    const selectAllEmployees = document.getElementById("select-all-employees");
 
-    function renderGrid() {
-        const days = ["2026-03-24", "2026-03-25", "2026-03-26", "2026-03-27", "2026-03-28", "2026-03-29", "2026-03-30"];
-        
-        Object.keys(shiftNames).forEach(shiftKey => {
-            days.forEach(day => {
-                const shiftData = mockScheduleData[day]?.[shiftKey];
-                const cell = document.createElement('div');
-                cell.className = 'shift-cell';
-                cell.dataset.date = day;
-                cell.dataset.shift = shiftKey;
+    let currentWeekStart = new Date("2026-03-16T00:00:00");
+    let selectedDate = new Date("2026-03-16T00:00:00");
 
-                const employeeCount = shiftData?.employees?.length || 0;
-
-                cell.innerHTML = `
-                    <span class="shift-name">${shiftNames[shiftKey].name}</span>
-                    <span class="employee-count-badge ${employeeCount === 0 ? 'zero' : ''}">${employeeCount}</span>
-                `;
-                
-                if (shiftData) {
-                    cell.addEventListener('click', () => openModal(day, shiftKey));
-                } else {
-                    cell.style.cursor = 'not-allowed';
-                    cell.style.opacity = '0.5';
-                }
-                
-                grid.appendChild(cell);
-            });
-        });
+    function addDays(date, days) {
+        const next = new Date(date);
+        next.setDate(next.getDate() + days);
+        return next;
     }
 
-    function openModal(date, shiftKey) {
-        const shiftData = mockScheduleData[date][shiftKey];
+    function formatKey(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    }
+
+    function startOfWeek(date) {
+        const start = new Date(date);
+        const day = start.getDay();
+        const offset = day === 0 ? -6 : 1 - day;
+        start.setDate(start.getDate() + offset);
+        start.setHours(0, 0, 0, 0);
+        return start;
+    }
+
+    function formatShort(date) {
+        return `${date.getDate()}/${date.getMonth() + 1}`;
+    }
+
+    function formatDateVN(date) {
+        return `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getFullYear()}`;
+    }
+
+    function monthTitle(date) {
+        return `Tháng ${date.getMonth() + 1} ${date.getFullYear()}`;
+    }
+
+    function monthTitleWithComma(date) {
+        return `Tháng ${date.getMonth() + 1} ${date.getFullYear()}`;
+    }
+
+    function getWeekDays(startDate) {
+        return Array.from({ length: 7 }, (_, index) => addDays(startDate, index));
+    }
+
+    function renderBoard() {
+        const days = getWeekDays(currentWeekStart);
+        const selectedDateKey = formatKey(selectedDate);
+        scheduleBoard.innerHTML = "";
+
+        const corner = document.createElement("div");
+        corner.className = "board-corner";
+        scheduleBoard.appendChild(corner);
+
+        days.forEach((day, index) => {
+            const header = document.createElement("div");
+            const dateKey = formatKey(day);
+            header.className = `board-day${dateKey === selectedDateKey ? " is-highlight" : ""}`;
+            header.innerHTML = `${weekdayLabels[index]}<span class="date">${formatShort(day)}</span>`;
+            scheduleBoard.appendChild(header);
+        });
+
+        shifts.forEach((shift) => {
+            const timeLabel = document.createElement("div");
+            timeLabel.className = "board-time";
+            timeLabel.textContent = shift.label;
+            scheduleBoard.appendChild(timeLabel);
+
+            days.forEach((day) => {
+                const dateKey = formatKey(day);
+                const shiftData = mockScheduleData[dateKey]?.[shift.key];
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = `shift-pill ${shift.className}${shiftData ? "" : " is-empty"}`;
+                button.dataset.date = dateKey;
+                button.dataset.shift = shift.key;
+                button.textContent = shiftData && shiftData.employees > 0 ? `${shiftData.employees} người đăng ký` : shift.defaultText;
+
+                if (shiftData) {
+                    button.addEventListener("click", () => openModal(dateKey, shift.key));
+                }
+
+                scheduleBoard.appendChild(button);
+            });
+        });
+
+        currentWeekLabel.textContent = `${formatShort(days[0])} - ${formatShort(days[6])}`;
+        calendarTitle.textContent = monthTitleWithComma(days[0]);
+    }
+
+    function renderMiniCalendar() {
+        const baseDate = currentWeekStart;
+        const selectedDateKey = formatKey(selectedDate);
+        const year = baseDate.getFullYear();
+        const month = baseDate.getMonth();
+        const firstDay = new Date(year, month, 1);
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const startOffset = (firstDay.getDay() + 6) % 7;
+
+        miniCalendar.innerHTML = "";
+        weekdays.forEach((label) => {
+            const weekday = document.createElement("div");
+            weekday.className = "mini-calendar-weekday";
+            weekday.textContent = label;
+            miniCalendar.appendChild(weekday);
+        });
+
+        for (let i = 0; i < startOffset; i += 1) {
+            const empty = document.createElement("div");
+            miniCalendar.appendChild(empty);
+        }
+
+        for (let day = 1; day <= daysInMonth; day += 1) {
+            const date = new Date(year, month, day);
+            const dateKey = formatKey(date);
+            const cell = document.createElement("div");
+            cell.className = `mini-calendar-day${dateKey === selectedDateKey ? " is-selected" : ""}`;
+            cell.textContent = day;
+            miniCalendar.appendChild(cell);
+        }
+
+        calendarTitle.textContent = monthTitle(baseDate);
+    }
+
+    function openModal(dateKey, shiftKey) {
+        const shiftData = mockScheduleData[dateKey]?.[shiftKey];
         if (!shiftData) return;
 
-        // Populate shift info
-        document.getElementById('modal-schedule-id').textContent = shiftData.id || 'N/A';
-        document.getElementById('modal-date').textContent = date;
-        document.getElementById('modal-shift-time').textContent = `${shiftNames[shiftKey].name} (${shiftNames[shiftKey].time})`;
-        document.getElementById('modal-status').textContent = shiftData.status || 'Chưa có';
-        document.getElementById('modal-created-date').textContent = shiftData.created || 'N/A';
+        const shiftInfo = shifts.find((item) => item.key === shiftKey);
+        document.getElementById("modal-schedule-id").textContent = shiftData.id || "N/A";
+        document.getElementById("modal-date").textContent = formatDateVN(new Date(`${dateKey}T00:00:00`));
+        document.getElementById("modal-shift-time").textContent = `${shiftInfo.defaultText} (${shiftInfo.time})`;
+        document.getElementById("modal-status").textContent = shiftData.status || "Chưa có";
+        document.getElementById("modal-created-date").textContent = shiftData.created || "N/A";
 
-        // Populate employee list
-        const employeeListBody = document.getElementById('modal-employee-list');
-        employeeListBody.innerHTML = ''; // Clear previous list
+        const employeeListBody = document.getElementById("modal-employee-list");
+        employeeListBody.innerHTML = "";
 
-        if (shiftData.employees && shiftData.employees.length > 0) {
-            shiftData.employees.forEach(emp => {
-                const isSent = emp.status === 'Đã Gửi';
-                const row = document.createElement('tr');
-                row.className = isSent ? 'is-sent' : '';
-                row.dataset.employeeId = emp.id;
-                
+        if (shiftData.details.length) {
+            shiftData.details.forEach((employee) => {
+                const isSent = employee.status === "Đã gửi";
+                const row = document.createElement("tr");
+                row.className = isSent ? "is-sent" : "";
+                row.dataset.employeeId = employee.id;
                 row.innerHTML = `
-                    <td><input type="checkbox" ${isSent ? 'disabled' : ''}></td>
-                    <td>${emp.id}</td>
-                    <td>${emp.name}</td>
-                    <td>${emp.role}</td>
-                    <td class="status-cell">${emp.status}</td>
+                    <td><input type="checkbox" ${isSent ? "disabled" : ""}></td>
+                    <td>${employee.id}</td>
+                    <td>${employee.name}</td>
+                    <td>${employee.role}</td>
+                    <td class="status-cell">${employee.status}</td>
                 `;
                 employeeListBody.appendChild(row);
             });
         } else {
             employeeListBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Chưa có nhân viên nào trong ca này.</td></tr>';
         }
-        
-        // Store context for the send button
-        modalSendBtn.dataset.date = date;
-        modalSendBtn.dataset.shift = shiftKey;
 
-        modal.classList.add('show');
+        modalSendBtn.dataset.date = dateKey;
+        modalSendBtn.dataset.shift = shiftKey;
+        selectAllEmployees.checked = false;
+        modal.classList.add("show");
     }
 
     function closeModal() {
-        modal.classList.remove('show');
+        modal.classList.remove("show");
     }
 
     function handleSendNotification() {
-        const date = modalSendBtn.dataset.date;
-        const shiftKey = modalSendBtn.dataset.shift;
-        const checkedBoxes = modal.querySelectorAll('tbody input[type="checkbox"]:checked');
-        
-        if (checkedBoxes.length === 0) {
-            alert('Vui lòng chọn ít nhất một nhân viên để gửi thông báo.');
+        const checkedBoxes = modal.querySelectorAll("tbody input[type='checkbox']:checked");
+        if (!checkedBoxes.length) {
+            alert("Vui lòng chọn ít nhất một nhân viên để gửi thông báo.");
             return;
         }
-
-        const employeeIdsToSend = Array.from(checkedBoxes).map(box => box.closest('tr').dataset.employeeId);
-
-        // --- Simulate API call ---
-        console.log('Sending notifications to:', employeeIdsToSend);
-        modalSendBtn.textContent = 'Đang gửi...';
-        modalSendBtn.disabled = true;
-
-        setTimeout(() => {
-            // On success, update mock data and UI
-            employeeIdsToSend.forEach(empId => {
-                const employee = mockScheduleData[date][shiftKey].employees.find(e => e.id === empId);
-                if (employee) {
-                    employee.status = 'Đã Gửi';
-                }
-                
-                // Update UI in modal
-                const row = modal.querySelector(`tr[data-employee-id="${empId}"]`);
-                if (row) {
-                    row.classList.add('is-sent');
-                    row.querySelector('input[type="checkbox"]').disabled = true;
-                    row.querySelector('.status-cell').textContent = 'Đã Gửi';
-                }
-            });
-            
-            // Check if all employees in shift are sent, then update shift status
-            const allSent = mockScheduleData[date][shiftKey].employees.every(e => e.status === 'Đã Gửi');
-            if (allSent) {
-                mockScheduleData[date][shiftKey].status = 'Đã Gửi';
-                document.getElementById('modal-status').textContent = 'Đã Gửi';
-            }
-
-            alert('Đã gửi thông báo thành công!');
-            modalSendBtn.textContent = 'Gửi Thông Báo';
-            modalSendBtn.disabled = false;
-            
-            // Uncheck all boxes
-            modal.querySelectorAll('tbody input[type="checkbox"]').forEach(box => box.checked = false);
-            document.getElementById('select-all-employees').checked = false;
-
-        }, 1000); // Simulate 1 second delay
+        alert("Đã gửi thông báo thành công!");
+        closeModal();
     }
 
-    // --- EVENT LISTENERS ---
-    modalCloseBtn.addEventListener('click', closeModal);
-    modalConfirmBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (event) => {
+    modalCloseBtn.addEventListener("click", closeModal);
+    modalConfirmBtn.addEventListener("click", closeModal);
+    modalSendBtn.addEventListener("click", handleSendNotification);
+
+    modal.addEventListener("click", function (event) {
         if (event.target === modal) {
             closeModal();
         }
     });
-    modalSendBtn.addEventListener('click', handleSendNotification);
 
-    document.getElementById('select-all-employees').addEventListener('change', function(event) {
-        const checkboxes = modal.querySelectorAll('tbody input[type="checkbox"]:not(:disabled)');
-        checkboxes.forEach(box => box.checked = event.target.checked);
+    selectAllEmployees.addEventListener("change", function (event) {
+        const checkboxes = modal.querySelectorAll("tbody input[type='checkbox']:not(:disabled)");
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = event.target.checked;
+        });
     });
 
-    // --- INITIAL RENDER ---
-    renderGrid();
+    prevWeekBtn.addEventListener("click", function () {
+        currentWeekStart = addDays(currentWeekStart, -7);
+        selectedDate = addDays(selectedDate, -7);
+        renderBoard();
+        renderMiniCalendar();
+    });
+
+    nextWeekBtn.addEventListener("click", function () {
+        currentWeekStart = addDays(currentWeekStart, 7);
+        selectedDate = addDays(selectedDate, 7);
+        renderBoard();
+        renderMiniCalendar();
+    });
+
+    currentWeekStart = startOfWeek(selectedDate);
+    renderBoard();
+    renderMiniCalendar();
 });
